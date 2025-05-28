@@ -2,7 +2,7 @@ import argparse
 import csv
 from datetime import datetime
 from pathlib import Path
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 
 
 def main():
@@ -46,11 +46,11 @@ def scan_pdfs(directory):
         try:
             reader = PdfReader(str(pdf_path))
             info = reader.metadata
-            title = info.title if info and info.title else ""
+            title = info.title if info and info.title else pdf_path.stem
             author = info.author if info and info.author else ""
         except Exception as e:
             print(f"⚠️  Could not read metadata for {pdf_path.name}: {e}")
-            title, author = "", ""
+            title, author = author = pdf_path.stem, ""
 
         stats = pdf_path.stat()
         size_mb = round(stats.st_size / (1024 * 1024), 2)
